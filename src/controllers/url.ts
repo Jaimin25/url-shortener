@@ -1,8 +1,8 @@
+import { URL } from "../models/urls";
+
 const shortid = require("shortid");
 
-const URL = require("../models/urls");
-
-async function handleGenerateShortUrl(req, res) {
+export async function handleGenerateShortUrl(req: any, res: any) {
     const body = req.body;
 
     if (!body.url) {
@@ -21,19 +21,14 @@ async function handleGenerateShortUrl(req, res) {
     return res.json({ id: shortId });
 }
 
-async function handleGetAnalytics(req, res) {
+export async function handleGetAnalytics(req: any, res: any) {
     const shortId = req.params.shortId;
     const result = await URL.findOne({
         shortId,
     });
 
     return res.json({
-        totalClick: result.visitHistory.length,
-        analytics: result.visitHistory,
+        totalClick: result!.visitHistory.length,
+        analytics: result!.visitHistory,
     });
 }
-
-module.exports = {
-    handleGenerateShortUrl,
-    handleGetAnalytics,
-};
