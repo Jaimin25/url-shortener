@@ -1,3 +1,4 @@
+import { Request, Response } from "express";
 import { URL } from "../models/urls";
 
 const shortid = require("shortid");
@@ -14,7 +15,7 @@ interface analytics {
     ];
 }
 
-export async function handleGenerateShortUrl(req: any, res: any) {
+export async function handleGenerateShortUrl(req: Request, res: Response) {
     const body = req.body;
 
     if (!body.url) {
@@ -33,7 +34,7 @@ export async function handleGenerateShortUrl(req: any, res: any) {
     return res.json({ id: shortId });
 }
 
-export async function handleGetAnalytics(req: any, res: any) {
+export async function handleGetAnalytics(req: Request, res: Response) {
     const shortId: string = req.params.shortId;
     const result = (await URL.findOne({
         shortId,

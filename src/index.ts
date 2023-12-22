@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import { connectDb } from "./connect";
 import { URL } from "./models/urls";
 import router from "./routes/url";
@@ -16,7 +16,7 @@ app.use(express.json());
 
 app.use("/url", urlRoute);
 
-app.get("/:shortId", async (req: any, res: any) => {
+app.get("/:shortId", async (req: Request, res: Response) => {
     const shortId: string = req.params.shortId;
     const entry = await URL.findOneAndUpdate(
         { shortId },
