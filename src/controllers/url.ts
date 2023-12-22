@@ -15,7 +15,7 @@ interface analytics {
     ];
 }
 
-export async function handleGenerateShortUrl(req: Request, res: Response) {
+export async function handleGenerateShortUrl(req: any, res: any) {
     const body = req.body;
 
     if (!body.url) {
@@ -29,6 +29,7 @@ export async function handleGenerateShortUrl(req: Request, res: Response) {
         shortId,
         redirectUrl: body.url,
         visitHistory: [],
+        createdBy: req.user._id,
     });
 
     return res.render("home", { id: shortId });

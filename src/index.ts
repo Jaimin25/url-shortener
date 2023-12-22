@@ -4,6 +4,9 @@ import { URL } from "./models/urls";
 import router from "./routes/url";
 import path from "path";
 import staticRoute from "./routes/staticRouter";
+import userRoute from "./routes/user";
+import cookieParser from "cookie-parser";
+import { checkAuth, restrictToLoggedinUserOnly } from "./middlewares/auth";
 
 const app = express();
 const PORT = 8001;
@@ -19,6 +22,7 @@ app.set("views", path.join(__dirname, "views"));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 
 app.get("/test", async (req, res) => {
     const allUrls = await URL.find({});
@@ -28,8 +32,9 @@ app.get("/test", async (req, res) => {
     });
 });
 
-app.use("/url", urlRoute);
-app.use("/", staticRoute);
+app.use("/url", restrictToLoggedinUserOnly, urlRoute);
+app.use("/user", userRoute);
+app.use("/", checkAuth, staticRoute);
 
 app.get("/url/:shortId", async (req: Request, res: Response) => {
     const shortId: string = req.params.shortId;
