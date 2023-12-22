@@ -31,7 +31,7 @@ export async function handleGenerateShortUrl(req: Request, res: Response) {
         visitHistory: [],
     });
 
-    return res.json({ id: shortId });
+    return res.render("home", { id: shortId });
 }
 
 export async function handleGetAnalytics(req: Request, res: Response) {
