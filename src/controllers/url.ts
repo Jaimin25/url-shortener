@@ -2,6 +2,18 @@ import { URL } from "../models/urls";
 
 const shortid = require("shortid");
 
+interface analytics {
+    visitHistory: [
+        totalClick: number,
+        analytics: [
+            {
+                timestamp: Date;
+                _id: string;
+            }
+        ]
+    ];
+}
+
 export async function handleGenerateShortUrl(req: any, res: any) {
     const body = req.body;
 
@@ -22,13 +34,13 @@ export async function handleGenerateShortUrl(req: any, res: any) {
 }
 
 export async function handleGetAnalytics(req: any, res: any) {
-    const shortId = req.params.shortId;
-    const result = await URL.findOne({
+    const shortId: string = req.params.shortId;
+    const result = (await URL.findOne({
         shortId,
-    });
+    })) as analytics;
 
     return res.json({
-        totalClick: result!.visitHistory.length,
-        analytics: result!.visitHistory,
+        totalClick: result.visitHistory.length,
+        analytics: result.visitHistory,
     });
 }

@@ -17,7 +17,7 @@ app.use(express.json());
 app.use("/url", urlRoute);
 
 app.get("/:shortId", async (req: any, res: any) => {
-    const shortId = req.params.shortId;
+    const shortId: string = req.params.shortId;
     const entry = await URL.findOneAndUpdate(
         { shortId },
         {
